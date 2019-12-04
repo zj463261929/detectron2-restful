@@ -1,0 +1,40 @@
+[2019-12-03 21:23:02,407] {app.py - app - info:31} - IP:127.0.0.1
+[2019-12-03 21:23:02,407] {app.py - app - info:33} - model_path:./model/RetinaNet.yaml-
+[2019-12-03 21:23:02,407] {app.py - app - info:46} - images path:/data/AI/zhangjing/detectron2/restful/img/20180921_50E54921F7C4_00008.jpg
+[2019-12-03 21:23:02,483] {app.py - app - info:95} - readimage time:0.07478976249694824
+[2019-12-03 21:23:02,483] {app.py - app - info:112} - no electronic fence!
+[2019-12-03 21:23:02,483] {app.py - app - info:120} - x_position:[]   y_position:[]
+[2019-12-03 21:23:02,714] {app.py - app - info:125} - model time:0.23154020309448242
+[2019-12-03 21:23:02,714] {app.py - app - info:127} - the images predict completed!!!
+[2019-12-03 21:23:02,714] {app.py - app - info:134} - ['images path:/data/AI/zhangjing/detectron2/restful/img/20180921_50E54921F7C4_00008.jpg', 'minibus', 'person', 'person', 'trucksmall', 'minibus', 'person', 'car', 'suv', 'suv', 'car']
+[2019-12-03 21:23:02,715] {app.py - app - info:139} - predict time:0.30738282203674316
+[2019-12-03 21:26:03,774] {app.py - app - info:31} - IP:127.0.0.1
+[2019-12-03 21:26:03,774] {app.py - app - info:33} - model_path:./model/RetinaNet.yaml-
+[2019-12-03 21:26:03,774] {app.py - app - info:46} - images path:/data/AI/zhangjing/detectron2/restful/img/20180921_50E54921F7C4_00008.jpg
+[2019-12-03 21:26:03,789] {app.py - app - info:95} - readimage time:0.01505899429321289
+[2019-12-03 21:26:03,790] {app.py - app - info:112} - no electronic fence!
+[2019-12-03 21:26:03,790] {app.py - app - info:120} - x_position:[]   y_position:[]
+[2019-12-03 21:26:04,009] {app.py - app - info:125} - model time:0.2196183204650879
+[2019-12-03 21:26:04,009] {app.py - app - info:127} - the images predict completed!!!
+[2019-12-03 21:26:04,009] {app.py - app - info:134} - ['images path:/data/AI/zhangjing/detectron2/restful/img/20180921_50E54921F7C4_00008.jpg', 'minibus', 'person', 'person', 'trucksmall', 'minibus', 'person', 'car', 'suv', 'suv', 'car']
+[2019-12-03 21:26:04,009] {app.py - app - info:139} - predict time:0.2351386547088623
+[2019-12-03 21:26:25,327] {app.py - app - info:31} - IP:127.0.0.1
+[2019-12-03 21:26:25,327] {app.py - app - info:33} - model_path:./model/RetinaNet.yaml-
+[2019-12-03 21:26:25,327] {app.py - app - info:46} - images path:/data/AI/zhangjing/detectron2/restful/img/20180921_50E54921F7C4_00008.jpg
+[2019-12-03 21:26:25,340] {app.py - app - info:95} - readimage time:0.012988805770874023
+[2019-12-03 21:26:25,340] {app.py - app - info:112} - no electronic fence!
+[2019-12-03 21:26:25,340] {app.py - app - info:120} - x_position:[]   y_position:[]
+[2019-12-03 21:26:25,572] {app.py - app - info:125} - model time:0.23231101036071777
+[2019-12-03 21:26:25,573] {app.py - app - info:127} - the images predict completed!!!
+[2019-12-03 21:26:25,573] {app.py - app - info:134} - ['images path:/data/AI/zhangjing/detectron2/restful/img/20180921_50E54921F7C4_00008.jpg', 'minibus', 'person', 'person', 'trucksmall', 'minibus', 'person', 'car', 'suv', 'suv', 'car']
+[2019-12-03 21:26:25,573] {app.py - app - info:139} - predict time:0.245741605758667
+[2019-12-03 21:27:08,498] {app.py - app - info:31} - IP:127.0.0.1
+[2019-12-03 21:27:08,498] {app.py - app - info:33} - model_path:/data/AI/zhangjing/oilstealing_model/RetinaNet.yaml-
+[2019-12-03 21:27:08,498] {app.py - app - info:46} - images path:/data/AI/zhangjing/detectron2/restful/img/20180921_50E54921F7C4_00008.jpg
+[2019-12-03 21:27:08,513] {app.py - app - info:95} - readimage time:0.014959573745727539
+[2019-12-03 21:27:08,513] {app.py - app - info:112} - no electronic fence!
+[2019-12-03 21:27:08,513] {app.py - app - info:120} - x_position:[]   y_position:[]
+[2019-12-03 21:27:08,733] {app.py - app - info:125} - model time:0.21975207328796387
+[2019-12-03 21:27:08,733] {app.py - app - info:127} - the images predict completed!!!
+[2019-12-03 21:27:08,733] {app.py - app - info:134} - ['images path:/data/AI/zhangjing/detectron2/restful/img/20180921_50E54921F7C4_00008.jpg', 'minibus', 'person', 'person', 'trucksmall', 'minibus', 'person', 'car', 'suv', 'suv', 'car']
+[2019-12-03 21:27:08,733] {app.py - app - info:139} - predict time:0.23518872261047363
