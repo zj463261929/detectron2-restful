@@ -168,7 +168,7 @@ if __name__ == '__main__':
         cfg_path = '/data/AI/zhangjing/oilstealing_model/RetinaNet.yaml'
         weights_path = '/data/AI/zhangjing/oilstealing_model/model.pkl' '''
     
-    cfg_path = '/data/AI/zhangjing/oilstealing_model/RetinaNet.yaml'
+    cfg_path = '/opt/oilstealing_model/RetinaNet.yaml'
     weights_path = '' #'/data/AI/zhangjing/oilstealing_model/model.pkl'
     if not os.path.exists(cfg_path): # or not os.path.exists(weights_path):
         cfg_path = './model/RetinaNet.yaml'
