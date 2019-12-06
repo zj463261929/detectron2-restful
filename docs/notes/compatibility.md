@@ -49,7 +49,7 @@ The major differences regarding inference are:
 	can improve mask AP on COCO by ~0.5% absolute.
 
 There are some other differences in training as well, but they won't affect
-model-level compatibility. The majors ones are:
+model-level compatibility. The major ones are:
 
 - We fixed a [bug](https://github.com/facebookresearch/Detectron/issues/459) in
   Detectron, by making `RPN.POST_NMS_TOPK_TRAIN` per-image, rather than per-batch.
@@ -73,6 +73,8 @@ As mentioned above, despite the incompatibilities with Detectron, the relevant
 ops have been implemented in Caffe2, in [PR1](https://github.com/pytorch/pytorch/pull/20550)
 and [PR2](https://github.com/pytorch/pytorch/pull/23706).
 Therefore, models trained with detectron2 can be used in Caffe2.
+
+A conversion script will be available later, for easier deployment.
 
 
 ## Compatibility with TensorFlow

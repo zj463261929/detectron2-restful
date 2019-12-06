@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
-# File:
 
 import torch
 
 from detectron2.modeling import ROI_HEADS_REGISTRY, StandardROIHeads
 from detectron2.modeling.poolers import ROIPooler
-
-# Is this function good to expose as an API?
-from detectron2.modeling.roi_heads.roi_heads import select_foreground_proposals
+from detectron2.modeling.roi_heads import select_foreground_proposals
 
 from .densepose_head import (
     build_densepose_data_filter,
@@ -87,7 +84,7 @@ class DensePoseROIHeads(StandardROIHeads):
                 densepose_head_outputs = self.densepose_head(features_dp)
                 densepose_outputs, _ = self.densepose_predictor(densepose_head_outputs)
             else:
-                # If no detection occured instances
+                # If no detection occurred instances
                 # set densepose_outputs to empty tensors
                 empty_tensor = torch.zeros(size=(0, 0, 0, 0), device=features_dp.device)
                 densepose_outputs = tuple([empty_tensor] * 4)

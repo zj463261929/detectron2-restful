@@ -41,13 +41,9 @@ _PREDEFINED_SPLITS_COCO["coco"] = {
     ),
     "coco_2017_train": ("coco/train2017", "coco/annotations/instances_train2017.json"),
     "coco_2017_val": ("coco/val2017", "coco/annotations/instances_val2017.json"),
+    "coco_2017_test": ("coco/test2017", "coco/annotations/image_info_test2017.json"),
+    "coco_2017_test-dev": ("coco/test2017", "coco/annotations/image_info_test-dev2017.json"),
     "coco_2017_val_100": ("coco/val2017", "coco/annotations/instances_val2017_100.json"),
-    "coco_2017_oil_train": ("/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/VOC2012/JPEGImages", "/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/json/train.json"),
-    "coco_2017_oil_trainval": ("/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/VOC2012/JPEGImages", "/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/json/trainval.json"),
-    "coco_2017_oil_val": ("/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/VOC2012/JPEGImages", "/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/json/val.json"),
-    "coco_2017_oil_benchmark_day269": ("/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/VOC2012/JPEGImages_benchmark_day269", "/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/json/benchmark_day269.json"),
-    "coco_2017_oil_benchmark_day200": ("/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/VOC2012/JPEGImages_benchmark_day200", "/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/json/benchmark_day200.json"),
-    "coco_2017_oil_benchmark_night150": ("/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/VOC2012/JPEGImages_benchmark_night150", "/data/AI/train-data/oillstealing/oil_vehicle_person_10cls/VOCdevkit/json/benchmark_night150.json")
 }
 
 _PREDEFINED_SPLITS_COCO["coco_person"] = {

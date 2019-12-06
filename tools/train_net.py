@@ -38,12 +38,7 @@ from detectron2.evaluation import (
 from detectron2.modeling import GeneralizedRCNNWithTTA
 
 
-class Trainer(DefaultTrainer):  #detectron2/engine/default.py  
-    '''#detectron2/engine/default.py 
-        model = self.build_model(cfg)
-        optimizer = self.build_optimizer(cfg, model)
-        data_loader = self.build_train_loader(cfg) 
-    '''
+class Trainer(DefaultTrainer):
     """
     We use the "DefaultTrainer" which contains a number pre-defined logic for
     standard training workflow. They may not work for you, especially if you
@@ -127,14 +122,13 @@ def setup(args):
 
 
 def main(args):
-    cfg = setup(args) #Namespace(config_file='configs/Base-RetinaNet_zj.yaml', dist_url='tcp://127.0.0.1:49152', eval_only=True, machine_rank=0, num_gpus=1, num_machines=1, opts=['OUTPUT_DIR', 'output/oil/test/'], resume=False)
+    cfg = setup(args)
 
     if args.eval_only:
         model = Trainer.build_model(cfg)
         DetectionCheckpointer(model, save_dir=cfg.OUTPUT_DIR).resume_or_load(
             cfg.MODEL.WEIGHTS, resume=args.resume
-        ) #error:[10/20 23:29:16 fvcore.common.checkpoint]: No checkpoint found. Initializing model from scratch  eval_only=False(->OK)
-        
+        )
         res = Trainer.test(cfg, model)
         if comm.is_main_process():
             verify_results(cfg, res)
@@ -146,9 +140,9 @@ def main(args):
     If you'd like to do anything fancier than the standard training logic,
     consider writing your own training loop or subclassing the trainer.
     """
-    trainer = Trainer(cfg) ####
-    trainer.resume_or_load(resume=args.resume) ##detectron2/engine/defaults.py
-    if cfg.TEST.AUG.ENABLED: #False
+    trainer = Trainer(cfg)
+    trainer.resume_or_load(resume=args.resume)
+    if cfg.TEST.AUG.ENABLED:
         trainer.register_hooks(
             [hooks.EvalHook(0, lambda: trainer.test_with_TTA(cfg, trainer.model))]
         )

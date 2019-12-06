@@ -5,7 +5,6 @@ import multiprocessing as mp
 from collections import deque
 import cv2
 import torch
-import time
 
 from detectron2.data import MetadataCatalog
 from detectron2.engine.defaults import DefaultPredictor
@@ -22,7 +21,9 @@ class VisualizationDemo(object):
             parallel (bool): whether to run the model in different processes from visualization.
                 Useful since the visualization logic can be slow.
         """
-        self.metadata = MetadataCatalog.get(cfg.DATASETS.TEST[0])
+        self.metadata = MetadataCatalog.get(
+            cfg.DATASETS.TEST[0] if len(cfg.DATASETS.TEST) else "__unused"
+        )
         self.cpu_device = torch.device("cpu")
         self.instance_mode = instance_mode
 
@@ -44,14 +45,7 @@ class VisualizationDemo(object):
             vis_output (VisImage): the visualized image output.
         """
         vis_output = None
-        all_time = 0
-        for i in range(100):
-            start_time = time.time()
-            predictions = self.predictor(image) #<class 'detectron2.structures.instances.Instances'>
-            end_time = time.time() - start_time
-            all_time = all_time + end_time
-            #print ("predict time: ", end_time)
-        print ("ave time: ", all_time/100)    
+        predictions = self.predictor(image)
         # Convert image from OpenCV BGR format to Matplotlib RGB format.
         image = image[:, :, ::-1]
         visualizer = Visualizer(image, self.metadata, instance_mode=self.instance_mode)
@@ -67,7 +61,8 @@ class VisualizationDemo(object):
                 )
             if "instances" in predictions:
                 instances = predictions["instances"].to(self.cpu_device)
-                vis_output = visualizer.draw_instance_predictions(predictions=instances) #######
+                vis_output = visualizer.draw_instance_predictions(predictions=instances)
+
         return predictions, vis_output
 
     def _frame_from_video(self, video):
@@ -138,7 +133,7 @@ class AsyncPredictor:
     """
     A predictor that runs the model asynchronously, possibly on >1 GPUs.
     Because rendering the visualization takes considerably amount of time,
-    this helps improve thoughput when rendering videos.
+    this helps improve throughput when rendering videos.
     """
 
     class _StopToken:

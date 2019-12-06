@@ -19,7 +19,7 @@ class DatasetCatalog(object):
     format of `list[dict]`.
 
     The returned dicts should be in Detectron2 Dataset format (See DATASETS.md for details)
-    if used with the data loader functionatilities in `data/build.py,data/detection_transform.py`.
+    if used with the data loader functionalities in `data/build.py,data/detection_transform.py`.
 
     The purpose of having this catalog is to make it easy to choose
     different datasets, by just using the strings in the config.
@@ -34,10 +34,14 @@ class DatasetCatalog(object):
             name (str): the name that identifies a dataset, e.g. "coco_2014_train".
             func (callable): a callable which takes no arguments and returns a list of dicts.
         """
-        DatasetCatalog._REGISTERED[name] = func #register_coco_instances
+        assert callable(func), "You must register a function with `DatasetCatalog.register`!"
+        assert name not in DatasetCatalog._REGISTERED, "Dataset '{}' is already registered!".format(
+            name
+        )
+        DatasetCatalog._REGISTERED[name] = func
 
     @staticmethod
-    def get(name): 
+    def get(name):
         """
         Call the registered function and return its results.
 
@@ -48,10 +52,7 @@ class DatasetCatalog(object):
             list[dict]: dataset annotations.0
         """
         try:
-            f = DatasetCatalog._REGISTERED[name] 
-            #print ("2222:", name, f) #coco_2017_train_test,register_coco_instances
-            #detectron2/data/datasets/register_coco.py
-            #DatasetCatalog.register(name, lambda: load_coco_json(json_file, image_root, name))
+            f = DatasetCatalog._REGISTERED[name]
         except KeyError:
             raise KeyError(
                 "Dataset '{}' is not registered! Available datasets are: {}".format(
@@ -105,13 +106,12 @@ class Metadata(types.SimpleNamespace):
     }
 
     def __getattr__(self, key):
-        if key in self._RENAMED:# dataset_name {'class_names': 'thing_classes', 'dataset_id_to_contiguous_id': 'thing_dataset_id_to_contiguous_id', 'stuff_class_names': 'stuff_classes'}
+        if key in self._RENAMED:
             log_first_n(
                 logging.WARNING,
                 "Metadata '{}' was renamed to '{}'!".format(key, self._RENAMED[key]),
                 n=10,
             )
-            
             return getattr(self, self._RENAMED[key])
 
         raise AttributeError(
@@ -121,7 +121,6 @@ class Metadata(types.SimpleNamespace):
         )
 
     def __setattr__(self, key, val):
-        #print ("55555:",key, val) # thing_classes  ['suv', .11.., 'bicycle']
         if key in self._RENAMED:
             log_first_n(
                 logging.WARNING,
@@ -132,12 +131,11 @@ class Metadata(types.SimpleNamespace):
 
         # Ensure that metadata of the same name stays consistent
         try:
-            oldval = getattr(self, key) ########  oldval:[ ['person', ...,'toothbrush']
-            #print ("11111: ", oldval, val) 
+            oldval = getattr(self, key)
             assert oldval == val, (
                 "Attribute '{}' in the metadata of '{}' cannot be set "
                 "to a different value!\n{} != {}".format(key, self.name, oldval, val)
-            ) 
+            )
         except AttributeError:
             super().__setattr__(key, val)
 
@@ -189,25 +187,25 @@ class MetadataCatalog:
 
         Returns:
             Metadata: The :class:`Metadata` instance associated with this name,
-                or create an empty one if none is available.
+            or create an empty one if none is available.
         """
         assert len(name)
         if name in MetadataCatalog._NAME_TO_META:
-            ret = MetadataCatalog._NAME_TO_META[name] ######
+            ret = MetadataCatalog._NAME_TO_META[name]
             # TODO this is for the BC breaking change in D15247032.
             # Remove this in the future.
             if hasattr(ret, "dataset_name"):
                 logger = logging.getLogger()
                 logger.warning(
                     """
-                    The 'dataset_name' key in metadata is no longer used for
-                    sharing metadata among splits after D15247032! Add
-                    metadata to each split (now called dataset) separately!
+The 'dataset_name' key in metadata is no longer used for
+sharing metadata among splits after D15247032! Add
+metadata to each split (now called dataset) separately!
                     """
                 )
                 parent_meta = MetadataCatalog.get(ret.dataset_name).as_dict()
                 ret.set(**parent_meta)
-            return ret ######
+            return ret
         else:
             m = MetadataCatalog._NAME_TO_META[name] = Metadata(name=name)
             return m

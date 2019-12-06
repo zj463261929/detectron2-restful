@@ -26,12 +26,12 @@ _C.MODEL.KEYPOINT_ON = False
 _C.MODEL.DEVICE = "cuda"
 _C.MODEL.META_ARCHITECTURE = "GeneralizedRCNN"
 
-# If the WEIGHT starts with a catalog://, like :R-50, the code will look for
-# the path in ModelCatalog. Else, it will use it as the specified absolute
-# path
+# Path (possibly with schema like catalog:// or detectron2://) to a checkpoint file
+# to be loaded to the model. You can find available models in the model zoo.
 _C.MODEL.WEIGHTS = ""
 
-# Values to be used for image normalization (BGR order)
+# Values to be used for image normalization (BGR order).
+# To train on images of different number of channels, just set different mean & std.
 # Default values are the mean pixel value from ImageNet: [103.53, 116.28, 123.675]
 _C.MODEL.PIXEL_MEAN = [103.530, 116.280, 123.675]
 # When using pre-trained models in Detectron1 or any MSRA models,
@@ -61,7 +61,7 @@ _C.INPUT.CROP = CN({"ENABLED": False})
 # Cropping type:
 # - "relative" crop (H * CROP.SIZE[0], W * CROP.SIZE[1]) part of an input of size (H, W)
 # - "relative_range" uniformly sample relative crop size from between [CROP.SIZE[0], [CROP.SIZE[1]].
-#   and  [1, 1] and use it as in "realtive" scenario.
+#   and  [1, 1] and use it as in "relative" scenario.
 # - "absolute" crop part of an input with absolute size: (CROP.SIZE[0], CROP.SIZE[1]).
 _C.INPUT.CROP.TYPE = "relative_range"
 # Size of crop in range (0, 1] if CROP.TYPE is "relative" or "relative_range" and in number of
@@ -75,6 +75,8 @@ _C.INPUT.CROP.SIZE = [0.9, 0.9]
 # with BGR being the one exception. One can set image format to BGR, we will
 # internally use RGB for conversion and flip the channels over
 _C.INPUT.FORMAT = "BGR"
+# The ground truth mask format that the model will use.
+# Mask R-CNN supports either "polygon" or "bitmask" as ground truth.
 _C.INPUT.MASK_FORMAT = "polygon"  # alternative: "bitmask"
 
 
@@ -111,7 +113,9 @@ _C.DATALOADER.ASPECT_RATIO_GROUPING = True
 _C.DATALOADER.SAMPLER_TRAIN = "TrainingSampler"
 # Repeat threshold for RepeatFactorTrainingSampler
 _C.DATALOADER.REPEAT_THRESHOLD = 0.0
-
+# if True, the dataloader will filter out images that have no associated
+# annotations at train time.
+_C.DATALOADER.FILTER_EMPTY_ANNOTATIONS = True
 
 # ---------------------------------------------------------------------------- #
 # Backbone options
@@ -358,7 +362,7 @@ _C.MODEL.ROI_KEYPOINT_HEAD.LOSS_WEIGHT = 1.0
 _C.MODEL.ROI_KEYPOINT_HEAD.POOLER_TYPE = "ROIAlignV2"
 
 # ---------------------------------------------------------------------------- #
-# Semantic Segmenation Head
+# Semantic Segmentation Head
 # ---------------------------------------------------------------------------- #
 _C.MODEL.SEM_SEG_HEAD = CN()
 _C.MODEL.SEM_SEG_HEAD.NAME = "SemSegFPNHead"
@@ -495,7 +499,7 @@ _C.SOLVER.WARMUP_FACTOR = 1.0 / 1000
 _C.SOLVER.WARMUP_ITERS = 1000
 _C.SOLVER.WARMUP_METHOD = "linear"
 
-_C.SOLVER.CHECKPOINT_PERIOD = 5000 ######
+_C.SOLVER.CHECKPOINT_PERIOD = 5000
 
 # Number of images per batch across all machines.
 # If we have 16 GPUs and IMS_PER_BATCH = 32,
@@ -545,8 +549,10 @@ _C.OUTPUT_DIR = "./output"
 # Set seed to positive to use a fixed seed. Note that a fixed seed does not
 # guarantee fully deterministic behavior.
 _C.SEED = -1
-# Benchmark different cudnn algorithms. It has large overhead for about 10k
-# iterations. It usually hurts total time, but can benefit for certain models.
+# Benchmark different cudnn algorithms.
+# If input images have very different sizes, this option will have large overhead
+# for about 10k iterations. It usually hurts total time, but can benefit for certain models.
+# If input images have the same or similar sizes, benchmark is often helpful.
 _C.CUDNN_BENCHMARK = False
 
 # global config is for quick hack purposes.

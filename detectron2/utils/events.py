@@ -19,7 +19,19 @@ def get_event_storage():
     return _CURRENT_STORAGE_STACK[-1]
 
 
-class JSONWriter:
+class EventWriter:
+    """
+    Base class for writers that obtain events from :class:`EventStorage` and process them.
+    """
+
+    def write(self):
+        raise NotImplementedError
+
+    def close(self):
+        pass
+
+
+class JSONWriter(EventWriter):
     """
     Write scalars to a json file.
 
@@ -86,12 +98,11 @@ class JSONWriter:
         except AttributeError:
             pass
 
-    def __del__(self):
-        # not guaranteed to be called at exit, but probably fine
+    def close(self):
         self._file_handle.close()
 
 
-class TensorboardXWriter:
+class TensorboardXWriter(EventWriter):
     """
     Write all scalars to a tensorboard file.
     """
@@ -113,14 +124,14 @@ class TensorboardXWriter:
         for k, v in storage.latest_with_smoothing_hint(self._window_size).items():
             self._writer.add_scalar(k, v, storage.iter)
 
-    def __del__(self):
+    def close(self):
         if hasattr(self, "_writer"):  # doesn't exist when the code fails at import
             self._writer.close()
 
 
-class CommonMetricPrinter:
+class CommonMetricPrinter(EventWriter):
     """
-    Print __common__ metrics to the terminal, including
+    Print **common** metrics to the terminal, including
     iteration time, ETA, memory, all losses, and the learning rate.
 
     To print something different, please implement a similar printer by yourself.
@@ -145,6 +156,7 @@ class CommonMetricPrinter:
             data_time = storage.history("data_time").avg(20)
             time = storage.history("time").global_avg()
             eta_seconds = storage.history("time").median(1000) * (self._max_iter - iteration)
+            storage.put_scalar("eta_seconds", eta_seconds, smoothing_hint=False)
             eta_string = str(datetime.timedelta(seconds=int(eta_seconds)))
         except KeyError:  # they may not exist in the first few iterations (due to warmup)
             pass
