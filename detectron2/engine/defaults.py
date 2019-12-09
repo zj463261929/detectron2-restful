@@ -154,11 +154,17 @@ class DefaultPredictor:
     def __init__(self, cfg):
         self.cfg = cfg.clone()  # cfg can be modified by model
         self.model = build_model(self.cfg)
+        if torch.cuda.is_available():
+            max_mem_mb = torch.cuda.max_memory_allocated() / 1024.0 / 1024.0
+            print ("111max_mem_mb: ", max_mem_mb)
         self.model.eval()
         self.metadata = MetadataCatalog.get(cfg.DATASETS.TEST[0])
 
         checkpointer = DetectionCheckpointer(self.model)
         checkpointer.load(cfg.MODEL.WEIGHTS)
+        if torch.cuda.is_available():
+            max_mem_mb = torch.cuda.max_memory_allocated() / 1024.0 / 1024.0
+            print ("222max_mem_mb: ", max_mem_mb)
 
         self.transform_gen = T.ResizeShortestEdge(
             [cfg.INPUT.MIN_SIZE_TEST, cfg.INPUT.MIN_SIZE_TEST], cfg.INPUT.MAX_SIZE_TEST
@@ -185,7 +191,13 @@ class DefaultPredictor:
         image = torch.as_tensor(image.astype("float32").transpose(2, 0, 1))
 
         inputs = {"image": image, "height": height, "width": width}
+        if torch.cuda.is_available():
+            max_mem_mb = torch.cuda.max_memory_allocated() / 1024.0 / 1024.0
+            print ("3333max_mem_mb: ", max_mem_mb)
         predictions = self.model([inputs])[0]
+        if torch.cuda.is_available():
+            max_mem_mb = torch.cuda.max_memory_allocated() / 1024.0 / 1024.0
+            print ("4444max_mem_mb: ", max_mem_mb)
         return predictions
 
 
